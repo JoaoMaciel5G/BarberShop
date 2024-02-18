@@ -1,6 +1,7 @@
 import Header from "@/_components/Header";
 import {format} from "date-fns"
 import { ptBR } from "date-fns/locale";
+import Search from "./_components/Search";
 
 export default function Home() {
   return (
@@ -12,6 +13,10 @@ export default function Home() {
         <p className="capitalize text-lg">{format(new Date(), "EEEE',' d ' de ' MMMM", {
           locale: ptBR
         })}</p>
+      </div>
+
+      <div className="px-5 mt-6">
+        <Search/>
       </div>
     </main>
   );
