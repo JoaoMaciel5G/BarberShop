@@ -35,6 +35,15 @@ const BarbershopInfo = ({barbershops}: BarberShopInfoProps) => {
                   <Star className="text-primary"/>
                   <p className="text-sm">5,0 (879 avaliações)</p>  
                 </div>
+                <div className="flex gap-4 mt-4">
+                    <Button>
+                        Serviços
+                    </Button>
+                    <Button variant="outline">
+                        Informações
+                    </Button>
+                </div>
+                
             </div>
         </div>
     );
