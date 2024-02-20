@@ -10,24 +10,24 @@ export default async function Home() {
 
   const barbershops = await db.barberShop.findMany({})
   return (
-    <main>
+    <main className="px-5">
       <Header/>
-      <div className="px-5 pt-5">
+      <div className=" pt-5">
         <h2 className="text-2xl">Olá <span className="font-semibold">Miguel!</span></h2>
         <p className="capitalize text-lg">{format(new Date(), "EEEE',' d ' de ' MMMM", {
           locale: ptBR
         })}</p>
       </div>
-      <div className="px-5 mt-6">
+      <div className=" mt-6">
         <Search/>
       </div>
-      <div className="px-5 mt-6">
+      <div className=" mt-6">
         <h2 className="text-sm uppercase text-gray-400 font-bold mb-3">Agendamento</h2>
         <BookingItem/>
       </div>
       <div className="mt-6">
-        <h2 className=" px-5 text-sm uppercase text-gray-400 font-bold mb-3">Recomendados</h2>
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+        <h2 className=" text-sm uppercase text-gray-400 font-bold mb-3">Recomendados</h2>
+        <div className="flex justify-between gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {
             barbershops.map((barbershop)=>(
               <BarberShopItem key={barbershop.id} barbershop={barbershop}/>
@@ -36,8 +36,8 @@ export default async function Home() {
         </div>
       </div>
       <div className="mt-6 mb-[4.5rem]">
-        <h2 className=" px-5 text-sm uppercase text-gray-400 font-bold mb-3">Populares</h2>
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+        <h2 className="text-sm uppercase text-gray-400 font-bold mb-3">Populares</h2>
+        <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden justify-between">
           {
             barbershops.map((barbershop)=>(
               <BarberShopItem key={barbershop.id} barbershop={barbershop}/>
