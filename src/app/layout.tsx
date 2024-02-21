@@ -23,7 +23,6 @@ export default function RootLayout({
             {children}
             <Footer/>
         </AuthProvider>
-        
       </body>
     </html>
   );
