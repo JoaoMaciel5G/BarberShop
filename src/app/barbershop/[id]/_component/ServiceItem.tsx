@@ -9,16 +9,53 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { ptBR } from "date-fns/locale";
 import { generateDayTimeList } from "../_helpers/hours";
-import { format } from "date-fns";
+import { format, setHours, setMinutes } from "date-fns";
+import { save_booking } from "../_actions/bookings";
+import { signIn, useSession } from "next-auth/react";
+import { Loader2 } from "lucide-react";
 
 interface ServiceItemProps {
     service: Service,
+    isAuth: boolean,
     barbershop: BarberShop
 }
 
-const ServiceItem = ({service, barbershop}: ServiceItemProps) => {
+const ServiceItem = ({service, barbershop, isAuth}: ServiceItemProps) => {
+    const {data} = useSession()
     const [date, setDate] = useState<Date | undefined>(undefined)
     const [hour, setHour] = useState<string | undefined>()
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+
+    const dateHour = Number(hour?.split(":")[0])
+    const dateMinutes = Number(hour?.split(":")[1])
+
+    const newDate = setMinutes(setHours(date!, dateHour), dateMinutes)
+
+    const handleBookingLoggedClick = () => {
+        if(!isAuth){
+           return signIn() 
+        }
+    }
+
+    const handleSubmitBooking = async () => {
+        setIsSubmitLoading(true)
+        if(!date || !hour || !data?.user){
+            return
+        }
+        
+        try {
+            await save_booking({
+                barbershopId: service.barbershopId,
+                serviceId: service.id,
+                userId: (data?.user as any).id,
+                date: newDate,
+            })
+        } catch (error) {
+            console.error(error); 
+        }finally{
+            setIsSubmitLoading(false)
+        }
+    }
 
     const handleDateClick = (date: Date | undefined) => {
         setDate(date)
@@ -53,7 +90,7 @@ const ServiceItem = ({service, barbershop}: ServiceItemProps) => {
                             </p>
                             <Sheet>
                                 <SheetTrigger asChild>
-                                    <Button variant="secondary">
+                                    <Button variant="secondary" onClick={handleBookingLoggedClick}>
                                         Reservar
                                     </Button>
                                 </SheetTrigger>
@@ -68,28 +105,31 @@ const ServiceItem = ({service, barbershop}: ServiceItemProps) => {
                                         onSelect={handleDateClick}
                                         fromDate={new Date()}
                                         className="mt-6"
+                                        style={{
+                                            width: "100%"
+                                        }}
                                         styles={{
                                             head_cell: {
                                                 width: "100%",
                                                 textTransform: "capitalize"
                                             },
                                             cell: {
-                                                width: "100%"
+                                                width: "100%",
+                                            },
+                                            nav_button_next: {
+                                                height: "32px",
+                                                width: "32px"
+                                            },
+                                            nav_button_previous: {
+                                                height: "32px",
+                                                width: "32px"
                                             },
                                             button: {
                                                 width: "100%"
                                             },
-                                            nav_button_previous: {
-                                                width: "32px",
-                                                height: "32px"
-                                            },
-                                            nav_button_next: {
-                                                width: "32px",
-                                                height: "32px"
-                                            },
                                             caption: {
                                                 textTransform: "capitalize"
-                                            },
+                                            }
                                         }}
                                     />
                                     {date && (
@@ -138,7 +178,10 @@ const ServiceItem = ({service, barbershop}: ServiceItemProps) => {
                                         
                                     </div>
                                     <SheetFooter className="px-5">
-                                        <Button disabled={!hour || !date}>
+                                        <Button disabled={!hour || !date || isSubmitLoading} onClick={handleSubmitBooking}>
+                                            {isSubmitLoading && (
+                                               <Loader2 className="mr-2 h-4 w-4 animate-spin"/> 
+                                            )}
                                             Confirmar reserva
                                         </Button>
                                     </SheetFooter>
