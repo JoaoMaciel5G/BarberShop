@@ -11,6 +11,17 @@ import { Button } from "./ui/button";
 import { cancelBooking } from "@/app/_action/cancel-booking";
 import { toast } from "sonner";
 import { useState } from "react";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/_components/ui/alert-dialog"
 import { Loader2 } from "lucide-react";
 
 interface BookingProps {
@@ -117,10 +128,28 @@ const BookingItem = ({booking}: BookingProps) => {
                                 Voltar
                             </Button>
                         </SheetClose>
-                        <Button disabled={!bookingConfirmed || cancelLoading} onClick={handleCancelBookingClick} variant="destructive" className={`w-full ${cancelLoading ? "cursor-not-allowed" : ""}`}>
-                            {cancelLoading && (<Loader2 className="mr-2 h-4 w-4 animate-spin"/>)}
-                            Cancelar pedido
-                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button disabled={!bookingConfirmed} variant="destructive" className={`w-full ${cancelLoading ? "cursor-not-allowed" : ""}`}>
+                                    Cancelar pedido
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="w-[90%] rounded-md">
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Deseja mesmo cancelar sua reserva?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Esta ação está possibilitando você de perder um agendamento conosco. Ao cancelar, você terá que fazer outro agendamento, deseja continuar?
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter className="flex flex-row items-center gap-3">
+                                    <AlertDialogCancel className="w-full mt-0">Voltar</AlertDialogCancel>
+                                    <AlertDialogAction disabled={cancelLoading} className="w-full" onClick={handleCancelBookingClick}>
+                                        {cancelLoading && (<Loader2 className="mr-2 h-4 w-4 animate-spin"/>)}   
+                                        Continuar
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </SheetFooter>
                 </SheetContent>
             </Sheet>
