@@ -224,7 +224,6 @@ const ServiceItem = ({service, barbershop, isAuth}: ServiceItemProps) => {
                                                 </div> 
                                             </CardContent>
                                         </Card>
-                                        
                                     </div>
                                     <SheetFooter className="px-5">
                                         <Button disabled={!hour || !date || isSubmitLoading} onClick={handleSubmitBooking}>
