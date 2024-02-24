@@ -16,7 +16,7 @@ export default async function Home() {
     <main className="px-5">
       <Header/>
       <div className=" pt-5">
-        <h2 className="text-2xl">Olá <span className="font-semibold">{session?.user?.name}</span></h2>
+        <h2 className="text-2xl my-4"><span className="font-semibold">{session?.user ? `Olá ${session?.user?.name?.split(" ")[0]}` : "Olá, Vamos agendar um corte hoje?"}</span></h2>
         <p className="capitalize text-lg">{format(new Date(), "EEEE',' d ' de ' MMMM", {
           locale: ptBR
         })}</p>

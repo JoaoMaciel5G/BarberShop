@@ -130,7 +130,7 @@ const BookingItem = ({booking}: BookingProps) => {
                         </SheetClose>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button disabled={!bookingConfirmed} variant="destructive" className={`w-full ${cancelLoading ? "cursor-not-allowed" : ""}`}>
+                                <Button disabled={!bookingConfirmed} variant="destructive" className={`w-full`}>
                                     Cancelar pedido
                                 </Button>
                             </AlertDialogTrigger>
