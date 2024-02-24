@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import BarbershopInfo from "./_component/Barbershopinfo";
 import ServiceItem from "./_component/ServiceItem";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/_lib/auth";
 
 interface BarberShopDetailsPageProps {
     params: {

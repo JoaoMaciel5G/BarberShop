@@ -2,11 +2,10 @@ import Header from "@/_components/Header";
 import {format} from "date-fns"
 import { ptBR } from "date-fns/locale";
 import Search from "./_components/Search";
-import BookingItem from "@/_components/BookingItem";
 import { db } from "@/_lib/prisma";
 import BarberShopItem from "./_components/BarberShopItem";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/_lib/auth";
 
 export default async function Home() {
 
